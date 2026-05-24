@@ -1,20 +1,23 @@
 import shutil
 from datetime import datetime
 import os
+from colorama import Fore
 import json
 from colorama import Fore, Style, init
 from datetime import timedelta
-init(autoreset=True)
+init(autoreset=True)  # Tự động reset màu sau mỗi lần print, không cần reset thủ công
 
-today = datetime.now().strftime("%Y-%m-%d")
+today = datetime.now().strftime("%Y-%m-%d")  # Lấy ngày hôm nay dạng "YYYY-MM-DD"
 
 def clear():
+    # Xóa màn hình terminal — "cls" cho Windows, "clear" cho Mac/Linux
     os.system("cls" if os.name == "nt" else "clear")
 
 # Lấy độ rộng terminal để căn giữa text cho đẹp
 width = shutil.get_terminal_size().columns
 
 def add_task():
+    # Đọc danh sách task hiện có từ file, nếu file không tồn tại thì tạo list rỗng
     try:
         updated_task = []
         with open("tasks.json", "r") as file:
@@ -22,15 +25,13 @@ def add_task():
     except (FileNotFoundError, json.JSONDecodeError):
         updated_task = []
 
-
     while True: 
         clear()
         print("Please enter your TASK name!".center(width))
         task_name = input(">>>")
-        task_name_lower = task_name.lower()
+        task_name_lower = task_name.lower()  # Chuyển về chữ thường để tránh trùng lặp kiểu "Math" vs "math"
 
-
-        if is_duplicate(task_name_lower):
+        if is_duplicate(task_name_lower):  # Kiểm tra task đã tồn tại chưa
             clear()
             print(f"There is another task that named {task_name_lower} - You have 2 options: ".center(width))
             print(f"1. Set a new task with new deadline ")
@@ -39,8 +40,8 @@ def add_task():
             replace_or_setnew = input(">>>")
 
             if replace_or_setnew == "1": 
-                continue
-                clear()
+                continue  # Quay lại đầu vòng lặp để nhập tên task mới
+                clear()   # Dòng này không bao giờ chạy (unreachable sau continue)
             elif replace_or_setnew == "2": 
                 clear()
                 print("Opsie! There are 2 new options:")
@@ -48,118 +49,104 @@ def add_task():
                 print(f"2. Set a new deadline for task: '{task_name_lower}'")
                 choice = input(">>>")
                 clear()
-            
-            try: 
-                if choice == "1":
-                    
-                    for task in updated_task:
-                        if task['name'] == task_name_lower:
-                            current_deadline = task['deadline']
-                            break
-                    
-                    extra_days = int(input(f"Current deadline: {current_deadline}\nHow many days to add? "))
-
-                    for task in updated_task:
-                        if task['name'] == task_name_lower:
-                            old = datetime.fromisoformat(task['deadline'])
-                            task["deadline"] = str(old + timedelta(days=extra_days))
-                            
-                    with open("tasks.json", 'w') as file: 
-                        json.dump(updated_task, file, indent=4)
-                            
-                    print(f"Added {extra_days} day(s) to {task_name_lower} sucessfully! ")
-
-                    
-
-                
-                
-                
-                
-                elif choice == "2":
-                    while True:
-                        new_deadline = input(f"Enter new deadline (Ex: 14/01/2013-23:00): ")
-                        try:
-                            deadline_parsed = datetime.strptime(new_deadline, "%d/%m/%Y-%H:%M")  # ✅ validate
-                            break
-                        except ValueError:
-                            print("Wrong format!")
-            except UnboundLocalError:
-                clear()
-                print("Wtf did you type:v")
+            else:
+                print("Invalid choice!")
                 input()
-                menu()
+                continue      
             
-            
-            
-                    
-                    
+            if choice == "1":
+                # Tìm deadline hiện tại của task để hiển thị cho user
+                for task in updated_task:
+                    if task['name'] == task_name_lower:
+                        current_deadline = task['deadline']
+                        break
+                
+                extra_days = int(input(f"Current deadline: {current_deadline}\nHow many days to add? "))
+
+                # Cộng thêm số ngày vào deadline cũ bằng timedelta
+                for task in updated_task:
+                    if task['name'] == task_name_lower:
+                        old = datetime.fromisoformat(task['deadline'])
+                        task["deadline"] = str(old + timedelta(days=extra_days))
+                        
+                with open("tasks.json", 'w') as file: 
+                    json.dump(updated_task, file, indent=4)  # Lưu lại file với indent=4 cho dễ đọc
+                        
+                print(f"Added {extra_days} day(s) to {task_name_lower} sucessfully! ")
+                
+            elif choice == "2":
+                # Vòng lặp validate định dạng deadline nhập vào
+                while True:
+                    new_deadline = input(f"Enter new deadline (Ex: 14/01/2013-23:00): ")
+                    try:
+                        deadline_parsed = datetime.strptime(new_deadline, "%d/%m/%Y-%H:%M")  # Parse chuỗi → datetime object
+                        break  # Nhập đúng format → thoát vòng lặp
+                    except ValueError:
+                        print("Wrong format!")
                 
                 try: 
+                    # Tìm task theo tên và cập nhật deadline mới
                     for task in updated_task:
                         if task["name"] == task_name_lower:
                             task["deadline"] = str(deadline_parsed)
                     with open("tasks.json", 'w') as file: 
                         json.dump(updated_task, file, indent=4)
                     print(f"Task {task_name_lower} has been updated!")
-                    
 
                 except FileNotFoundError:
                     print("File not found!")
 
             input()
             break
-                    
-                
 
-
-
+        # Nếu task chưa tồn tại → nhập deadline mới
         while True:
             print(f"Please enter deadline for '{task_name_lower}'. Ex: 14/01/2013-23:00".center(width))
             task_deadline = input(">>>")
             try:
-                deadline = datetime.strptime(task_deadline, "%d/%m/%Y-%H:%M")
-                break  # nhập đúng → thoát
+                deadline = datetime.strptime(task_deadline, "%d/%m/%Y-%H:%M")  # Validate format
+                break  # Nhập đúng → thoát
         
             except ValueError as e:
                 print(f"Error found: {e}")
 
-        print(f"Saved your task: '{task_name}' - {repr(task_deadline)}".center(width))   # ✅
-        save_task(task_name_lower, deadline)
-        input()
+        print(f"Saved your task: {repr(task_deadline)}".center(width))
+        save_task(task_name_lower, deadline)  # Lưu task mới vào file
         break
 
 
 def is_duplicate(task_name_lower):
+    # Kiểm tra xem task_name đã tồn tại trong file chưa
+    # Trả về True nếu trùng, False nếu không
     try: 
         with open("tasks.json", 'r') as file:
             existing_task = json.load(file)
     except FileNotFoundError:
-        return False
+        return False  # File chưa có → chắc chắn không trùng
     except json.JSONDecodeError:
-        return False
-    
+        return False  # File rỗng hoặc lỗi → không trùng
     
     for task in existing_task:
         if task['name'] == task_name_lower:
-            return True
-    return False 
+            return True  # Tìm thấy trùng → trả về True
+    return False  # Loop xong không thấy → không trùng
     
 
-
-	
 def save_task(task_name_lower, deadline):
+    # Đọc danh sách task cũ, thêm task mới vào, rồi ghi lại file
     try:
         with open("tasks.json", 'r') as file:
             updated_tasks = json.load(file)
     except FileNotFoundError:
-        updated_tasks = []
+        updated_tasks = []  # File chưa tồn tại → bắt đầu list mới
     except json.JSONDecodeError:
-        updated_tasks = []
+        updated_tasks = []  # File lỗi → bắt đầu list mới
 
+    # Append task mới vào list với 3 field: name, deadline, done
     updated_tasks.append({
         "name": task_name_lower,
         "deadline": str(deadline),
-        "done": False
+        "done": False  # Task mới luôn chưa done
     })
 
     with open("tasks.json", 'w') as file:
@@ -168,6 +155,7 @@ def save_task(task_name_lower, deadline):
 
 def list_file():
     clear()
+    # Đọc toàn bộ task từ file
     try:
         with open("tasks.json", 'r') as file: 
             list_tasks = json.load(file)     
@@ -175,21 +163,32 @@ def list_file():
         list_tasks = []
     except json.JSONDecodeError:
         list_tasks = []
-    
+
+    keyword = input("Search (Enter to skip): ".center(width)).lower()
+
+    if keyword != "":
+        results = []                             # Tạo list rỗng chứa kết quả tìm kiếm
+        for task in list_tasks:                  # Loop qua từng task
+            if keyword in task["name"]:          # Nếu keyword có trong tên task
+                results.append(task)             # Thêm task đó vào results
+        list_tasks = results                     # Ghi đè list_tasks = chỉ còn task khớp keyword
+    # Nếu keyword == "" (user bấm Enter) → bỏ qua filter, giữ nguyên list_tasks đầy đủ
+
+    # In danh sách task với màu theo số ngày còn lại
     for task in list_tasks:
         name = task["name"]
         done = task["done"]  # True hoặc False
-        deadline = datetime.fromisoformat(task["deadline"])
-        delta = deadline - datetime.now()
+        deadline = datetime.fromisoformat(task["deadline"])  # Chuyển chuỗi → datetime object
+        delta = deadline - datetime.now()  # Tính khoảng cách từ bây giờ đến deadline
         day_left = delta.days
         if day_left <= 0:
             print(Fore.WHITE + f'(PASSED) {name} → {day_left} day passed (Deadline: "{deadline}") \n ---- DONE?: {done}')
         elif day_left <= 3:
-            print(Fore.RED + f'{name} → {day_left} left (Deadline: "{deadline}") \n ---- DONE?: {done}')
+            print(Fore.RED + f'{name} → {day_left} left (Deadline: "{deadline}") \n ---- DONE?: {done}')   # Cấp bách!
         elif day_left <= 7:
-            print(Fore.YELLOW + f'{name} → {day_left} left (Deadline: "{deadline}") \n ---- DONE?: {done}')
+            print(Fore.YELLOW + f'{name} → {day_left} left (Deadline: "{deadline}") \n ---- DONE?: {done}')  # Sắp tới
         else:
-            print(Fore.GREEN + f'{name} → {day_left} left (Deadline: "{deadline}") \n ---- DONE?: {done}')
+            print(Fore.GREEN + f'{name} → {day_left} left (Deadline: "{deadline}") \n ---- DONE?: {done}')   # Còn nhiều thời gian
     input()
     clear()
     
@@ -199,20 +198,19 @@ def mark_done():
             with open("tasks.json", "r") as file:
                 list_tasks = json.load(file)
             
+            # In danh sách task kèm số thứ tự để user chọn
             for i, task in enumerate(list_tasks): 
                 print(f"{i+1}. {task['name']} - ({task['done']})")
 
-
             choice = int(input("Choose your task to mark it as done: "))
-            list_tasks[choice - 1]["done"] = True
+            list_tasks[choice - 1]["done"] = True  # Đổi field "done" thành True (-1 vì index bắt đầu từ 0)
             with open("tasks.json", 'w') as file:
-                json.dump(list_tasks, file, indent=4)
+                json.dump(list_tasks, file, indent=4)  # Ghi lại file với thay đổi
             
             clear()
             print(f"Marked!".center(width))
             input()
             break
-
 
         except FileNotFoundError:
             print("File not found!")
@@ -220,14 +218,43 @@ def mark_done():
         except ValueError:
             print("Please enter a number!")
             input()
+
+
+def delete_task():
+    while True:
+        try:
+            with open("tasks.json", 'r') as file:
+                list_task = json.load(file)
+
+            # In danh sách task kèm số thứ tự để user chọn
+            for i, task in enumerate(list_task):
+                print(f"{i+1}. {task['name']}")
+            
+            choice = int(input("Choose your task to Delete: "))
+            list_task.pop(choice - 1)  # Xóa phần tử tại index đó khỏi list (-1 vì index từ 0)
+            
+            with open("tasks.json", "w") as file:
+                json.dump(list_task, file, indent=4)  # Ghi lại list sau khi đã xóa
+            print("Deleted!")
+            input()
+            break
+
+        except ValueError:
+            print("Please enter a number!")
+        except FileNotFoundError:
+            print("File Not Found!")
+
+
 def menu():
-    cleaned_json = []
+    # Vòng lặp chính của chương trình — chạy mãi cho đến khi user thoát
     while True:
         clear()
+        print("")
         print("Please enter your choice!".center(width))
         print("1. Add tasks")
         print("2. To view tasks")
         print("3. Mark done")
+        print("4. Delete a task")
         choice = input(">>>")
         if choice == "1":
             add_task()
@@ -235,12 +262,40 @@ def menu():
             list_file()
         elif choice == "3":
             mark_done()
-        elif choice == "reset" or "RESET":
-            with open("tasks.json", 'w') as file: 
-                cleaned_json = json.dump(cleaned_json, file, indent=4)
+        elif choice == "4":
+            delete_task()
 
 
+def banner():
+    colors = [Fore.RED, Fore.YELLOW, Fore.GREEN, Fore.CYAN, Fore.BLUE, Fore.MAGENTA]
+    clear()
+    # In logo chính bằng block Unicode (không dùng splitlines vì không cần rainbow ở đây)
+    print(r"""
+██╗    ██╗███████╗██╗      ██████╗ ██████╗ ███╗   ███╗███████╗    ████████╗ ██████╗ 
+██║    ██║██╔════╝██║     ██╔════╝██╔═══██╗████╗ ████║██╔════╝    ╚══██╔══╝██╔═══██╗
+██║ █╗ ██║█████╗  ██║     ██║     ██║   ██║██╔████╔██║█████╗         ██║   ██║   ██║
+██║███╗██║██╔══╝  ██║     ██║     ██║   ██║██║╚██╔╝██║██╔══╝         ██║   ██║   ██║
+╚███╔███╔╝███████╗███████╗╚██████╗╚██████╔╝██║ ╚═╝ ██║███████╗       ██║   ╚██████╔╝
+ ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝       ╚═╝    ╚═════╝ 
+          """
+)
+    # Tách ASCII art thành từng dòng để loop và gán màu khác nhau cho mỗi dòng → hiệu ứng rainbow
+    lines = r"""
+ _____                 _ _ _                ______                                      
+(____ \               | | (_)              |  ___ \                                     
+ _   \ \ ____ ____  _ | | |_ ____   ____   | | _ | | ____ ____   ____  ____  ____  ____ 
+| |   | / _  ) _  |/ || | | |  _ \ / _  )  | || || |/ _  |  _ \ / _  |/ _  |/ _  )/ ___)
+| |__/ ( (/ ( ( | ( (_| | | | | | ( (/ /   | || || ( ( | | | | ( ( | ( ( | ( (/ /| |    
+|_____/ \____)_||_|\____|_|_|_| |_|\____)  |_||_||_|\_||_|_| |_|\_||_|\_|| |\____)_|    
+                                                                     (_____|            
 
-menu()
 
+                                                                                                                                   
+""".splitlines()
+    for i, line in enumerate(lines):
+        print(colors[i % len(colors)] + line)  # i % len(colors) → lặp lại màu khi hết danh sách
+    print("Press enter to continue...")
 
+banner()  # Hiển thị banner trước khi vào menu
+input()
+menu()   # Vào vòng lặp chính của chương trình

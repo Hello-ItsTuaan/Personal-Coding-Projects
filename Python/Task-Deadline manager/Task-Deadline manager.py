@@ -7,6 +7,12 @@ from colorama import Fore, Style, init
 from datetime import timedelta
 init(autoreset=True)  # Tự động reset màu sau mỗi lần print, không cần reset thủ công
 
+
+
+script_dir = os.path.dirname(os.path.realpath(__file__))            # → "/home/tuaan/Desktop/.../Task-Deadline manager/TASK_FILE"                                                                   
+                       
+TASK_FILE = os.path.join(script_dir, "tasks.json")  
+
 today = datetime.now().strftime("%Y-%m-%d")  # Lấy ngày hôm nay dạng "YYYY-MM-DD"
 
 def clear():
@@ -20,7 +26,7 @@ def add_task():
     # Đọc danh sách task hiện có từ file, nếu file không tồn tại thì tạo list rỗng
     try:
         updated_task = []
-        with open("tasks.json", "r") as file:
+        with open(TASK_FILE, "r") as file:
             updated_task = json.load(file)
     except (FileNotFoundError, json.JSONDecodeError):
         updated_task = []
@@ -69,7 +75,7 @@ def add_task():
                         old = datetime.fromisoformat(task['deadline'])
                         task["deadline"] = str(old + timedelta(days=extra_days))
                         
-                with open("tasks.json", 'w') as file: 
+                with open(TASK_FILE, 'w') as file: 
                     json.dump(updated_task, file, indent=4)  # Lưu lại file với indent=4 cho dễ đọc
                         
                 print(f"Added {extra_days} day(s) to {task_name_lower} sucessfully! ")
@@ -89,7 +95,7 @@ def add_task():
                     for task in updated_task:
                         if task["name"] == task_name_lower:
                             task["deadline"] = str(deadline_parsed)
-                    with open("tasks.json", 'w') as file: 
+                    with open(TASK_FILE, 'w') as file: 
                         json.dump(updated_task, file, indent=4)
                     print(f"Task {task_name_lower} has been updated!")
 
@@ -119,7 +125,7 @@ def is_duplicate(task_name_lower):
     # Kiểm tra xem task_name đã tồn tại trong file chưa
     # Trả về True nếu trùng, False nếu không
     try: 
-        with open("tasks.json", 'r') as file:
+        with open(TASK_FILE, 'r') as file:
             existing_task = json.load(file)
     except FileNotFoundError:
         return False  # File chưa có → chắc chắn không trùng
@@ -135,13 +141,14 @@ def is_duplicate(task_name_lower):
 def save_task(task_name_lower, deadline):
     # Đọc danh sách task cũ, thêm task mới vào, rồi ghi lại file
     try:
-        with open("tasks.json", 'r') as file:
+        with open(TASK_FILE, 'r') as file:
             updated_tasks = json.load(file)
     except FileNotFoundError:
         updated_tasks = []  # File chưa tồn tại → bắt đầu list mới
     except json.JSONDecodeError:
         updated_tasks = []  # File lỗi → bắt đầu list mới
 
+    
     # Append task mới vào list với 3 field: name, deadline, done
     updated_tasks.append({
         "name": task_name_lower,
@@ -149,15 +156,17 @@ def save_task(task_name_lower, deadline):
         "done": False  # Task mới luôn chưa done
     })
 
-    with open("tasks.json", 'w') as file:
+    with open(TASK_FILE, 'w') as file:
         json.dump(updated_tasks, file, indent=4)
 
 
 def list_file():
     clear()
+    
+    
     # Đọc toàn bộ task từ file
     try:
-        with open("tasks.json", 'r') as file: 
+        with open(TASK_FILE, 'r') as file: 
             list_tasks = json.load(file)     
     except FileNotFoundError:
         list_tasks = []
@@ -174,6 +183,8 @@ def list_file():
         list_tasks = results                     # Ghi đè list_tasks = chỉ còn task khớp keyword
     # Nếu keyword == "" (user bấm Enter) → bỏ qua filter, giữ nguyên list_tasks đầy đủ
 
+    
+    
     # In danh sách task với màu theo số ngày còn lại
     for task in list_tasks:
         name = task["name"]
@@ -192,10 +203,11 @@ def list_file():
     input()
     clear()
     
+
 def mark_done():
     while True:
         try: 
-            with open("tasks.json", "r") as file:
+            with open(TASK_FILE, "r") as file:
                 list_tasks = json.load(file)
             
             # In danh sách task kèm số thứ tự để user chọn
@@ -204,7 +216,7 @@ def mark_done():
 
             choice = int(input("Choose your task to mark it as done: "))
             list_tasks[choice - 1]["done"] = True  # Đổi field "done" thành True (-1 vì index bắt đầu từ 0)
-            with open("tasks.json", 'w') as file:
+            with open(TASK_FILE, 'w') as file:
                 json.dump(list_tasks, file, indent=4)  # Ghi lại file với thay đổi
             
             clear()
@@ -223,7 +235,7 @@ def mark_done():
 def delete_task():
     while True:
         try:
-            with open("tasks.json", 'r') as file:
+            with open(TASK_FILE, 'r') as file:
                 list_task = json.load(file)
 
             # In danh sách task kèm số thứ tự để user chọn
@@ -231,22 +243,40 @@ def delete_task():
                 print(f"{i+1}. {task['name']}")
             
             choice = int(input("Choose your task to Delete: "))
-            list_task.pop(choice - 1)  # Xóa phần tử tại index đó khỏi list (-1 vì index từ 0)
+            if choice <= 0:
+                print("Choice cannot be < 0  ".center(width))
+                input()
+                clear()
+            else:
+                list_task.pop(choice - 1)  # Xóa phần tử tại index đó khỏi list (-1 vì index từ 0)
             
-            with open("tasks.json", "w") as file:
-                json.dump(list_task, file, indent=4)  # Ghi lại list sau khi đã xóa
-            print("Deleted!")
-            input()
-            break
+                with open(TASK_FILE, "w") as file:
+                    json.dump(list_task, file, indent=4)  # Ghi lại list sau khi đã xóa
+                print("Deleted!")
+                input()
+                break
 
         except ValueError:
             print("Please enter a number!")
         except FileNotFoundError:
             print("File Not Found!")
+            input()
+            break
+        except TypeError:
+            print("No tasks to delete!")
+            input()
+            break
+        except IndexError:
+            print("Cannot delete task: Task does not exist!")
+            input()
+            clear()
 
 
 def menu():
-    # Vòng lặp chính của chương trình — chạy mãi cho đến khi user thoát
+    
+
+
+
     while True:
         clear()
         print("")
@@ -279,6 +309,7 @@ def banner():
  ╚══╝╚══╝ ╚══════╝╚══════╝ ╚═════╝ ╚═════╝ ╚═╝     ╚═╝╚══════╝       ╚═╝    ╚═════╝ 
           """
 )
+    print("~THE~".center(width))
     # Tách ASCII art thành từng dòng để loop và gán màu khác nhau cho mỗi dòng → hiệu ứng rainbow
     lines = r"""
  _____                 _ _ _                ______                                      

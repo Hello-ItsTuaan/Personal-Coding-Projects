@@ -642,6 +642,7 @@ node something.js
 ## 👤 Author
 
 **Hello-ItsTuaan** - [GitHub Profile](https://github.com/Hello-ItsTuaan)
+This "README" was created by AI btw 🗣🤡, not me👍
 
 Created by Tuan Nguyen as a personal coding and school-tool development repository.
 

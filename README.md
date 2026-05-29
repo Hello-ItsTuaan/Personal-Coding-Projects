@@ -69,7 +69,7 @@ This project is publicly available. Check individual project files for any speci
 
 ## 👤 Author
 
-**Tun140113** - [GitHub Profile](https://github.com/Tun140113)
+**Tun140113** - [GitHub Profile](https://github.com/Hello-ItsTuaan)
 
 ---
 

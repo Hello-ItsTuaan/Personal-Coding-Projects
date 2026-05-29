@@ -172,7 +172,8 @@ def list_file():
         list_tasks = []
     except json.JSONDecodeError:
         list_tasks = []
-
+    
+    list_tasks = sorted(list_tasks, key=lambda custom_name_nice: custom_name_nice ["deadline"])
     keyword = input("Search (Enter to skip): ".center(width)).lower()
 
     if keyword != "":
@@ -271,12 +272,82 @@ def delete_task():
             input()
             clear()
 
+def export_file():
+    clear()
+    while True:
+        yes_no = input("You want to continue exporting? \ny/n?\n>>> ").lower()
+        if yes_no == "y": 
+            clear()    
+            break
+        else:
+            print("Heh?")
+            input()
+            clear()
+            
+
+    try:
+        list_task = []       
+        with open(TASK_FILE, "r") as file:
+            list_task = json.load(file)
+    except FileNotFoundError:
+        list_task = []
+    except json.JSONDecodeError:
+        list_task = []
+
+    while True:
+        path_option = input("I want to save my file in:\n\n1. Desktop \n2. Downloads\n3. Documents\n4. Custom path ")
+        
+        if path_option == "4":
+            clear()
+            print("PLEASE ENTER a PATH THAT YOU WANT YOUR FILE TO BE CREATED IN!\n\nYou can also check You can also check how to get a folder's path at this YouTube video:\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1\n".center(width))
+            path = input(">>>")
+            break
+        elif path_option == "1":
+            clear()
+            path = os.path.join(os.path.expanduser("~"), "Desktop")
+            break
+        elif path_option == "2":
+            clear()
+            path = os.path.join(os.path.expanduser("~"), "Downloads")
+            break
+        elif path_option == "3":
+            clear()
+            path = os.path.join(os.path.expanduser("~"), "Documents")
+            break
+        else:
+            print("Heh? Try again!")
+            clear()
+
+        
+    while True:
+        try:
+            with open(f"{path}/My Deadlines.txt", 'w') as file:
+                file.write("Task:\n")
+                for task in list_task:
+                    deadline = datetime.fromisoformat(task["deadline"])
+                    delta = deadline - datetime.now()
+                    day_left = delta.days
+                    name = task["name"]
+                    file.write(f"--> {name}: {day_left} days left *** DEADLINE: '{deadline}'\n")
+                clear()
+                print("File created sucessfully!".center(width))
+                input()
+                break
+        except FileNotFoundError:
+            clear()
+            print(f"Cannot find path: '{path}'\nYour path seem to be wrong!\nPlease check this video to find out how to get a folder's path!\n\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1")
+            input()
+            break
+        except OSError:
+            clear()
+            print(f"Cannot find path: '{path}'\nYour path seem to be wrong!\nPlease check this video to find out how to get a folder's path!\n\nhttps://www.youtube.com/watch?v=dQw4w9WgXcQ&list=RDdQw4w9WgXcQ&start_radio=1")
+            input()
+            break
+                
+
+
 
 def menu():
-    
-
-
-
     while True:
         clear()
         print("")
@@ -285,7 +356,9 @@ def menu():
         print("2. To view tasks")
         print("3. Mark done")
         print("4. Delete a task")
+        print("5. Export file (Currently only availible on Windows!)")
         choice = input(">>>")
+
         if choice == "1":
             add_task()
         elif choice == "2":
@@ -294,6 +367,9 @@ def menu():
             mark_done()
         elif choice == "4":
             delete_task()
+        elif choice == "5":
+            export_file()
+
 
 
 def banner():

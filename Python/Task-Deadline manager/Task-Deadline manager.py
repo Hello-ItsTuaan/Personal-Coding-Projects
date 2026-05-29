@@ -1,7 +1,6 @@
 import shutil
 from datetime import datetime
 import os
-from colorama import Fore
 import json
 from colorama import Fore, Style, init
 from datetime import timedelta

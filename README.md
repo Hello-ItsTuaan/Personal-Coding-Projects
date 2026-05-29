@@ -1,10 +1,22 @@
-# Personal Coding Projects
+# 🚀 Personal Coding Projects
 
-This repository is a personal learning workspace that collects coding practice, school-related tools, web experiments, and a larger self-hosted school management web app. It includes projects written in Python, HTML, JavaScript, React, Node.js, and Docker.
+Welcome to my personal coding repository. This repo is a collection of school tools, coding practice projects, web experiments, Python terminal apps, and a bigger self-hosted school manager web application.
 
-The folder is organized as a practical archive of experiments: some files are polished enough to run directly, while others are clearly marked as in-development practice projects. Most projects focus on student productivity, grade tracking, deadlines, study sessions, password utilities, and small web interfaces.
+The repository is mainly used for learning, experimenting, and building useful tools for student life, especially grade tracking, deadline management, study tracking, and productivity.
 
-## Repository Overview
+## 📌 What This Repository Contains
+
+- 🐍 Python terminal programs
+- 🌐 HTML/CSS/JavaScript browser projects
+- ⚛️ React + Vite school management app
+- 🧠 Grade calculation and prediction experiments
+- 📅 Task and deadline managers
+- 📊 Study tracking tools with charts
+- 🔐 Password checker and password generator practice
+- 🐳 Docker setup for the self-hosted web app
+- 🧪 Miscellaneous practice files and experiments
+
+## 🗂️ Repository Structure
 
 ```text
 Personal-Coding-Project/
@@ -35,17 +47,22 @@ Personal-Coding-Project/
 `-- README.md
 ```
 
-## Main Technologies
+## 🛠️ Main Technologies
 
-- Python 3 for terminal utilities, school tools, file-based storage, and small experiments
-- HTML, CSS, and vanilla JavaScript for standalone browser projects
-- React 18 and Vite for the self-hosted school manager frontend
-- Express.js for the local backend API
-- JSON files for lightweight local data storage
-- Docker and Docker Compose for containerized deployment of the school manager app
-- Tailwind CSS, Radix UI, shadcn-style UI components, Lucide icons, Recharts, XLSX, and jsPDF in the React app
+| Technology | Used For |
+| --- | --- |
+| 🐍 Python | Terminal apps, grade tools, study tools, experiments |
+| 🌐 HTML/CSS | Standalone web pages and UI practice |
+| 🟨 JavaScript | Browser interactivity and Node.js practice |
+| ⚛️ React | Main school manager frontend |
+| ⚡ Vite | React development/build tool |
+| 🟢 Node.js | Backend server and JavaScript CLI practice |
+| 🚂 Express.js | Local REST API for the school manager |
+| 🎨 Tailwind CSS | Styling the React app |
+| 📦 JSON | Local file-based data storage |
+| 🐳 Docker | Container deployment for the school manager |
 
-## Featured Project: School Manager Self-Host
+## ⭐ Featured Project: School Manager Self-Host
 
 Folder:
 
@@ -53,67 +70,75 @@ Folder:
 school-manager-selfhost - VIBE CODING/
 ```
 
-This is the largest project in the repository. It is a Vite + React school management application that has been refactored to run locally without Base44. The app includes a small Express backend and stores local data in:
+This is the biggest and most complete project in the repository. It is a self-hosted school management app built with React, Vite, Express.js, and local JSON storage.
+
+It was refactored to run locally without Base44. The frontend talks to a small local backend API, and the backend stores data in:
 
 ```text
 school-manager-selfhost - VIBE CODING/server/data/db.json
 ```
 
-### Features
+### ✨ Features
 
-- Dashboard for viewing overall school performance
-- Subject management page
-- Grade entry page
-- Test and exam calendar
-- Goal tracking for target scores
-- Reports and charts
-- Semester comparison
-- Suggested learning path page
-- Local REST API for subjects, grades, and goals
-- Local mock authentication endpoint
-- Excel export support through `xlsx`
-- PDF generation support through `jspdf`
-- Charts through `recharts`
-- Responsive UI built with React components and Tailwind CSS
+- 📊 Dashboard for school performance overview
+- 📚 Subject management
+- 📝 Grade entry and score calculation
+- 📅 Exam/test schedule management
+- 🎯 Goal tracking for target scores
+- 📈 Reports and charts
+- ⚖️ Semester comparison between HK1 and HK2
+- 💡 Suggested learning path page
+- 🔌 Local REST API for subjects, grades, and goals
+- 👤 Local mock authentication endpoint
+- 📤 Excel export support with `xlsx`
+- 📄 PDF generation support with `jspdf`
+- 📱 Responsive UI
+- 🐳 Docker support
 
-### Main Frontend Routes
+### 🧭 Frontend Routes
 
 | Route | Page | Purpose |
 | --- | --- | --- |
-| `/` | Dashboard | Overall score summary and key learning stats |
+| `/` | Dashboard | View overall learning stats |
 | `/mon-hoc` | Subjects | Manage school subjects |
 | `/diem-so` | Grades | Add and calculate scores |
-| `/lich-kiem-tra` | Exam Schedule | Manage tests and export calendar data |
-| `/muc-tieu` | Goals | Set and track subject goals |
+| `/lich-kiem-tra` | Exam Schedule | Manage tests and calendar data |
+| `/muc-tieu` | Goals | Set and track target scores |
 | `/bao-cao` | Reports | View reports and charts |
-| `/so-sanh` | Semester Compare | Compare HK1 and HK2 performance |
+| `/so-sanh` | Semester Compare | Compare HK1 and HK2 results |
 | `/lo-trinh` | Learning Path | See suggested focus areas |
 
-### Backend API
+### 🔌 Backend API
 
-The Express server exposes these local endpoints:
+The local Express server provides:
 
 ```text
 GET    /api/health
 GET    /api/auth/me
+
 GET    /api/subjects
 POST   /api/subjects
 PUT    /api/subjects/:id
 DELETE /api/subjects/:id
+
 GET    /api/grades
 POST   /api/grades
 PUT    /api/grades/:id
 DELETE /api/grades/:id
+
 GET    /api/goals
 POST   /api/goals
 PUT    /api/goals/:id
 DELETE /api/goals/:id
+
 POST   /api/llm/invoke
 ```
 
-Note: `/api/llm/invoke` currently returns `501 not_implemented`. It is a placeholder left from the Base44 version and can be connected to a server-side AI provider later.
+> ⚠️ Note: `/api/llm/invoke` currently returns `501 not_implemented`. It is a placeholder for a future AI feature.
 
-### Run the School Manager in Development
+### ▶️ Run School Manager in Development
+
+Start the backend API:
 
 ```bash
 cd "school-manager-selfhost - VIBE CODING"
@@ -121,24 +146,20 @@ npm install
 npm run dev:server
 ```
 
-In a second terminal:
+In another terminal, start the frontend:
 
 ```bash
 cd "school-manager-selfhost - VIBE CODING"
 npm run dev
 ```
 
-<<<<<<< HEAD
-The API server runs on:
-=======
-**Tun140113** - [GitHub Profile](https://github.com/Hello-ItsTuaan)
->>>>>>> 3f658a8f774c8afa3038eca4a8f92b84ff606b9c
+The backend runs at:
 
 ```text
 http://localhost:8787
 ```
 
-The Vite frontend usually runs on:
+The Vite frontend usually runs at:
 
 ```text
 http://localhost:5173
@@ -146,7 +167,7 @@ http://localhost:5173
 
 Vite proxies `/api` requests to `http://localhost:8787`.
 
-### Run the School Manager in Production-Like Mode
+### 🏗️ Run Production-Like Build
 
 ```bash
 cd "school-manager-selfhost - VIBE CODING"
@@ -161,26 +182,26 @@ Then open:
 http://localhost:8787
 ```
 
-### Run with Docker
+### 🐳 Run with Docker
 
 ```bash
 cd "school-manager-selfhost - VIBE CODING"
 docker compose up --build
 ```
 
-The container exposes the app on:
+Open:
 
 ```text
 http://localhost:8787
 ```
 
-Docker Compose mounts this folder so data persists outside the container:
+Docker Compose mounts this folder so data can persist:
 
 ```text
 server/data/
 ```
 
-## HTML Projects
+## 🌐 HTML Projects
 
 Folder:
 
@@ -188,29 +209,29 @@ Folder:
 HTML/
 ```
 
-### `grade_manager.html`
+### 📊 `grade_manager.html`
 
-A standalone browser-based grade manager written with HTML, CSS, and JavaScript. It includes a full UI for managing student grades and uses browser-side JavaScript instead of a backend.
+A standalone browser-based grade manager written with HTML, CSS, and JavaScript.
 
-Notable features include:
+Features include:
 
-- Dashboard-style school grade interface
-- Subject and grade tracking
-- Semester support
-- Charts through Chart.js
-- Excel import/export through SheetJS
-- PDF export through jsPDF
-- Screenshot/PDF support through html2canvas
-- Browser local data handling
-- Responsive layout with sidebar navigation
+- 📊 Grade dashboard
+- 📚 Subject tracking
+- 🧮 Score calculation
+- 📈 Charts using Chart.js
+- 📤 Excel import/export using SheetJS
+- 📄 PDF export using jsPDF
+- 🖼️ Screenshot/PDF support with html2canvas
+- 📱 Responsive layout
+- 💾 Browser-side data handling
 
-Run it by opening the file directly in a browser:
+Run it by opening:
 
 ```text
 HTML/grade_manager.html
 ```
 
-## JavaScript Projects
+## 🟨 JavaScript Projects
 
 Folder:
 
@@ -218,9 +239,9 @@ Folder:
 JavaScript/
 ```
 
-### `something.js`
+### 👋 `something.js`
 
-A small Node.js command-line practice script that asks for a name using the `readline` module and prints a greeting.
+A small Node.js command-line script that asks for your name and prints a greeting.
 
 Run it with:
 
@@ -229,19 +250,21 @@ cd JavaScript
 node something.js
 ```
 
-### `something.html`
+### 🛒 `something.html`
 
-A large standalone marketplace-style web page inspired by a classified listing app. It includes:
+A standalone marketplace-style web page inspired by classified listing sites.
 
-- Product grid
-- Search bar
-- Category filters
-- Price filters
-- Sorting
-- Product post modal
-- Image upload preview
-- Toast notifications
-- Responsive layout
+Features include:
+
+- 🔍 Product search
+- 🧩 Category filters
+- 💰 Price filters
+- ↕️ Sorting
+- 🧾 Product cards
+- ➕ Post listing modal
+- 🖼️ Image upload preview
+- 🔔 Toast notifications
+- 📱 Responsive design
 
 Run it by opening:
 
@@ -249,7 +272,7 @@ Run it by opening:
 JavaScript/something.html
 ```
 
-## Python Projects
+## 🐍 Python Projects
 
 Folder:
 
@@ -257,9 +280,9 @@ Folder:
 Python/
 ```
 
-The Python folder contains most of the small practice programs. Several of them store data in local `.txt` or `.json` files next to the scripts.
+This folder contains most of the terminal apps and practice programs. Many scripts use local `.txt` or `.json` files for storage.
 
-### Password Checker
+## 🔐 Password Checker
 
 Folder:
 
@@ -273,20 +296,20 @@ Main file:
 password_checker.py
 ```
 
-A terminal password utility with a simple menu. It can:
+This is a terminal password utility. It can:
 
-- Check password strength
-- Generate random passwords
-- Save username/password pairs to `accounts.txt`
-- View saved accounts
+- ✅ Check password strength
+- 🔁 Generate random passwords
+- 💾 Save username/password pairs to `accounts.txt`
+- 👀 View saved accounts
 
-The password score checks:
+The password checker scores passwords using:
 
 - Lowercase letters
 - Uppercase letters
 - Digits
 - Symbols
-- Minimum length of 8 characters
+- Length of at least 8 characters
 
 Run it with:
 
@@ -295,9 +318,9 @@ cd "Python/Password checker"
 python password_checker.py
 ```
 
-Important note: this script stores passwords in plain text in `accounts.txt`. It is useful for learning, but it should not be used as a real password manager.
+> ⚠️ Security note: this is a learning project. It stores passwords in plain text, so do not use it for real private passwords.
 
-### School Average Predictions
+## 🧮 School Average Predictions
 
 Folder:
 
@@ -316,16 +339,24 @@ grades.json
 test.py
 ```
 
-This in-development project focuses on grade calculations and prediction logic. The current calculation helpers include:
+This project is for school average calculation and prediction logic.
 
-- `calc_semester_avg(...)` for weighted semester averages
-- `calc_needed_score(...)` for calculating the missing score needed to reach a target
-- `calc_year_avg(...)` for year-end averages using HK1/HK2 weights
-- `check_goals(...)` for comparing current subject averages with goals
+Current helper functions include:
 
-The project uses `grades.json` for local data storage.
+- `calc_semester_avg(...)` - calculates weighted semester averages
+- `calc_needed_score(...)` - calculates the missing score needed to reach a goal
+- `calc_year_avg(...)` - calculates yearly average from HK1 and HK2
+- `check_goals(...)` - checks whether current grades meet targets
 
-### Grade Manager in Development
+Local data is stored in:
+
+```text
+grades.json
+```
+
+Status: 🚧 In development
+
+## 🏫 Grade Manager in Development
 
 Folder:
 
@@ -343,17 +374,17 @@ test.py
 test.json
 ```
 
-This is a practice terminal grade manager. It is designed to:
+This is a terminal grade manager practice project. It is designed to:
 
-- Add students
-- Store scores for Vietnamese, Math, and English
-- Calculate GPA
-- Rank students
-- Save and load data with JSON
+- ➕ Add students
+- 📝 Store subject scores
+- 🧮 Calculate GPA
+- 🏅 Rank students
+- 💾 Save/load data with JSON
 
-Some placeholders such as `___` are still present in `main.py`, so this project is not fully finished yet.
+Status: 🚧 In development. Some placeholders such as `___` are still present in `main.py`.
 
-### Task Deadline Manager
+## 📅 Task Deadline Manager
 
 Folder:
 
@@ -373,18 +404,19 @@ Data file:
 tasks.json
 ```
 
-A terminal deadline tracker that stores tasks in JSON. It can:
+This is a terminal task and deadline tracker.
 
-- Add a task with a deadline
-- Detect duplicate task names
-- Add more time to an existing task
-- Replace an existing deadline
-- List tasks sorted by deadline
-- Search tasks by keyword
-- Mark tasks as done
-- Delete tasks
-- Export deadlines to a text file
-- Color output based on urgency using `colorama`
+Features include:
+
+- ➕ Add tasks
+- 📅 Set deadlines
+- 🔁 Update existing deadlines
+- ⏰ Add more time to a task
+- 🔍 Search tasks
+- ✅ Mark tasks as done
+- 🗑️ Delete tasks
+- 📤 Export deadlines to a text file
+- 🎨 Color terminal output using `colorama`
 
 Run it with:
 
@@ -399,7 +431,7 @@ Optional dependency:
 pip install colorama
 ```
 
-### School Things Manager / Study Tracker
+## 📚 School Things Manager / Study Tracker
 
 Folder:
 
@@ -419,15 +451,16 @@ Data file:
 sessions.txt
 ```
 
-A study-session tracker for recording how much time is spent on each subject. It can:
+This is a study-session tracker for recording study time by subject.
 
-- Add study sessions
-- Prevent duplicate subject entries
-- Add extra minutes to an existing subject
-- View sessions in a table
-- Delete sessions
-- Display daily study statistics with a bar chart
-- Reset session data
+Features include:
+
+- ➕ Add study sessions
+- ⏱️ Add extra minutes to an existing subject
+- 📋 View sessions in a table
+- 🗑️ Delete sessions
+- 📊 Show daily study statistics with a bar chart
+- 🔄 Reset session data
 
 Run it with:
 
@@ -442,7 +475,7 @@ Optional dependencies:
 pip install prettytable matplotlib
 ```
 
-### Number Guessing Game
+## 🎲 Number Guessing Game
 
 Folder:
 
@@ -456,7 +489,7 @@ Main file:
 numberguessinggame.py
 ```
 
-A small terminal number guessing game using Python's `random` module.
+A small terminal game where the user guesses a randomly selected number.
 
 Run it with:
 
@@ -465,7 +498,7 @@ cd "Python/number_game"
 python numberguessinggame.py
 ```
 
-### Task Manager
+## ✅ Task Manager
 
 Folder:
 
@@ -479,9 +512,9 @@ Main file:
 task.py
 ```
 
-A small task-management practice script. This appears to be an earlier or simpler version compared with the larger Task Deadline Manager.
+A smaller task-management practice script. This appears to be an earlier or simpler task project compared with the larger Task Deadline Manager.
 
-### Stuffs
+## 🧪 Stuffs
 
 Folder:
 
@@ -489,37 +522,37 @@ Folder:
 Python/Stuffs/
 ```
 
-This folder contains miscellaneous experiments, older versions, and practice files. Examples include:
+This folder contains miscellaneous practice scripts, older versions, and experiments.
 
-- `calculator.py` - calculator practice
-- `bmi.py` - BMI calculator
-- `expensetracker.py` and `expensetracker2.0.py` - expense tracking experiments
-- `numberguessinggame.py` - another number guessing game copy
-- `password_checker.py` - another password checker copy
-- `chrome_lock.cpp`, `chrome_lock.exe`, `build_chrome_lock.bat` - C++/Windows experiment related to locking Chrome
-- `winver.py` - Windows credential/user verification experiment
-- `enetviet.py`, `test.py`, `mda.py`, `nhap.py`, `Questions.py` - additional experiments and practice scripts
+Examples:
 
-Some files in this folder are experiments and should be reviewed before running, especially scripts that interact with Windows processes, keyboard input, browser behavior, or system UI.
+- 🧮 `calculator.py` - calculator practice
+- ⚖️ `bmi.py` - BMI calculator
+- 💸 `expensetracker.py` and `expensetracker2.0.py` - expense tracker experiments
+- 🎲 `numberguessinggame.py` - number guessing game copy
+- 🔐 `password_checker.py` - password checker copy
+- 🪟 `winver.py` - Windows verification experiment
+- 🧱 `chrome_lock.cpp`, `chrome_lock.exe`, `build_chrome_lock.bat` - C++/Windows experiment
+- 🧪 `enetviet.py`, `test.py`, `mda.py`, `nhap.py`, `Questions.py` - extra experiments and practice files
 
-## Data Files
+> ⚠️ Some scripts in `Python/Stuffs/` interact with Windows processes, keyboard input, browser behavior, or system UI. Read the source code before running them.
 
-The repository includes several local data files used by the scripts:
+## 💾 Data Files
 
 | File | Purpose |
 | --- | --- |
-| `sessions.txt` | Root-level session data or practice data |
+| `sessions.txt` | Root-level session/practice data |
 | `sessions` | Small root-level session file |
 | `tasks.json` | Root-level task data |
 | `Python/tasks.json` | Python task data |
 | `Python/accounts.txt` | Account/password practice data |
 | `Python/Password checker/accounts.txt` | Password checker saved account data |
 | `Python/School_Things_Manager/sessions.txt` | Study tracker data |
-| `Python/Task-Deadline manager/tasks.json` | Deadline manager task storage |
-| `Python/School_AVG_Predictions- IN DEV/grades.json` | Grade prediction project data |
-| `school-manager-selfhost - VIBE CODING/server/data/db.json` | React school manager local database |
+| `Python/Task-Deadline manager/tasks.json` | Deadline manager storage |
+| `Python/School_AVG_Predictions- IN DEV/grades.json` | Grade prediction data |
+| `school-manager-selfhost - VIBE CODING/server/data/db.json` | School manager local database |
 
-## Suggested Setup
+## ⚙️ Suggested Setup
 
 ### Requirements
 
@@ -527,7 +560,7 @@ The repository includes several local data files used by the scripts:
 - Python 3.10 or newer
 - Node.js 20 or newer
 - npm
-- Docker Desktop, optional, only for the self-hosted school manager
+- Docker Desktop, optional
 
 ### Clone the Repository
 
@@ -538,85 +571,81 @@ cd Personal-Coding-Projects
 
 ### Python Dependencies
 
-Most Python scripts use only the standard library. Some scripts need extra packages:
+Most Python scripts use the standard library, but some projects may need extra packages:
 
 ```bash
 pip install colorama prettytable matplotlib psutil keyboard pywinrt
 ```
 
-You may not need all of these at once. Install only what is required by the script you want to run.
+Install only the packages needed for the script you want to run.
 
-Common optional packages by project:
-
-| Package | Used for |
+| Package | Used For |
 | --- | --- |
-| `colorama` | Colored terminal output in the deadline manager |
-| `prettytable` | Table display in the study tracker and expense tracker experiments |
-| `matplotlib` | Study statistics chart |
-| `psutil` | Windows/process experiments in `Stuffs/` |
-| `keyboard` | Keyboard input experiments in `Stuffs/` |
-| `pywinrt` / `winrt` | Windows-specific verification experiment |
+| `colorama` | Colored terminal output |
+| `prettytable` | Terminal tables |
+| `matplotlib` | Study charts |
+| `psutil` | Process/system experiments |
+| `keyboard` | Keyboard input experiments |
+| `pywinrt` / `winrt` | Windows-specific verification |
 
 ### Node Dependencies
 
-For the React school manager:
+For the school manager:
 
 ```bash
 cd "school-manager-selfhost - VIBE CODING"
 npm install
 ```
 
-For the small JavaScript CLI file:
+For the small JavaScript CLI script:
 
 ```bash
 cd JavaScript
 node something.js
 ```
 
-No npm install is required for `something.js` because it uses Node's built-in `readline` module.
-
-## Development Status
-
-This repository is a personal coding workspace, so projects are at different stages:
+## 🚦 Development Status
 
 | Area | Status |
 | --- | --- |
-| `school-manager-selfhost - VIBE CODING/` | Main polished app, runnable with npm or Docker |
-| `HTML/grade_manager.html` | Large standalone browser app |
-| `JavaScript/something.html` | Standalone web UI experiment |
-| `Python/Task-Deadline manager/` | Functional terminal app |
-| `Python/School_Things_Manager/` | Functional terminal app with charts |
-| `Python/Password checker/` | Functional learning project, not secure for real secrets |
-| `Python/School_AVG_Predictions- IN DEV/` | In development |
-| `Python/grade_manager - IN DEV/` | In development, contains placeholders |
-| `Python/Stuffs/` | Mixed experiments and practice files |
+| `school-manager-selfhost - VIBE CODING/` | ✅ Main polished app |
+| `HTML/grade_manager.html` | ✅ Large standalone web app |
+| `JavaScript/something.html` | ✅ Standalone UI experiment |
+| `JavaScript/something.js` | ✅ Small Node.js practice script |
+| `Python/Task-Deadline manager/` | ✅ Functional terminal app |
+| `Python/School_Things_Manager/` | ✅ Functional study tracker |
+| `Python/Password checker/` | ✅ Learning project |
+| `Python/School_AVG_Predictions- IN DEV/` | 🚧 In development |
+| `Python/grade_manager - IN DEV/` | 🚧 In development |
+| `Python/Stuffs/` | 🧪 Mixed experiments |
 
-## Notes for GitHub Visitors
+## 📝 Notes
 
-- This repository is best understood as a learning archive plus one larger school manager app.
+- This repository is a personal learning archive.
+- Some projects are finished enough to run, while others are experiments.
 - Some scripts use Vietnamese labels and comments.
-- Some terminal output may look different depending on the shell, OS, and text encoding.
-- Some files are intentionally experimental and may not be production-ready.
-- Plain-text data files are included for practice; avoid storing private real data in them.
-- Before running scripts in `Python/Stuffs/`, read the source code first because several files interact with local system behavior.
+- Some older source files may have text encoding issues.
+- Plain-text data files are included only for practice.
+- Do not store real passwords or private data in the included `.txt` or `.json` files.
 
-## Possible Future Improvements
+## 🔮 Future Improvements
 
 - Add `requirements.txt` files for Python subprojects
-- Split polished apps and experiments into separate folders
-- Fix text encoding issues in older Vietnamese source files
 - Add screenshots for the web projects
-- Add unit tests for grade calculation helpers
+- Add unit tests for grade calculation logic
 - Finish placeholders in `Python/grade_manager - IN DEV/main.py`
-- Implement `/api/llm/invoke` in the self-hosted school manager backend
-- Add environment variable examples for future AI or authentication features
-- Add a root-level project index with screenshots and direct run commands
+- Improve text encoding in older Vietnamese files
+- Implement `/api/llm/invoke` in the school manager backend
+- Add environment variable examples
+- Add a root-level project index with screenshots and quick links
 
-## Author
+## 👤 Author
+
+**Hello-ItsTuaan** - [GitHub Profile](https://github.com/Hello-ItsTuaan)
 
 Created by Tuan Nguyen as a personal coding and school-tool development repository.
 
-GitHub remote:
+## 🔗 Repository
 
 ```text
 https://github.com/Hello-ItsTuaan/Personal-Coding-Projects

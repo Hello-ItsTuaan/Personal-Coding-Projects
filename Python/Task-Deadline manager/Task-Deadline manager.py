@@ -8,6 +8,7 @@ init(autoreset=True)  # Tự động reset màu sau mỗi lần print, không c�
 
 
 
+
 script_dir = os.path.dirname(os.path.realpath(__file__))            # → "/home/tuaan/Desktop/.../Task-Deadline manager/TASK_FILE"                                                                   
                        
 TASK_FILE = os.path.join(script_dir, "tasks.json")  
